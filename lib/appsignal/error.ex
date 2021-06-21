@@ -27,10 +27,13 @@ defmodule Appsignal.Error do
   end
 
   defp name(banner, type) do
-    if String.contains?(banner, inspect(type)) do
-      banner
-    else
-      type <> " " <> banner
-    end
+    name =
+      if String.contains?(banner, inspect(type)) do
+        banner
+      else
+        type <> " " <> banner
+      end
+
+    Regex.replace(~r/#PID<\d+\.\d+\.\d+>/, name, "PID_NORMALIZED")
   end
 end
